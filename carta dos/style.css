@@ -1,0 +1,104 @@
+:root {
+  --fondo: #fbf3ee;
+  --papel: #fffdf9;
+  --tinta: #55444a;
+  --texto-suave: #987b82;
+  --rosa: #cb7e91;
+  --sobre: #e8b6bd;
+  --sobre-oscuro: #d99ba8;
+  --sombra: #704b551a;
+  --imagen-fondo: none; /* Ejemplo: url("mi-foto.jpg") */
+}
+
+* { box-sizing: border-box; }
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--tinta);
+  background: var(--imagen-fondo), radial-gradient(#e8c9cf55 1px, transparent 1px);
+  background-color: var(--fondo);
+  background-size: cover, 34px 34px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.pagina {
+  min-height: 100vh;
+  padding: 54px 20px 38px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.sobretexto { margin: 0 0 14px; color: var(--rosa); font: 700 10px Arial, sans-serif; letter-spacing: .22em; }
+h1 { max-width: 650px; margin: 0; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 500; }
+.instruccion, .pie { color: var(--texto-suave); font: 14px Arial, sans-serif; }
+.instruccion { margin: 14px 0 0; }
+.pie { margin-top: auto; padding-top: 36px; font-size: 12px; }
+
+/* Sobre y carta */
+.sobre {
+  position: relative;
+  width: min(390px, 84vw);
+  height: 250px;
+  margin-top: 42px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 18px 23px var(--sombra));
+  perspective: 1000px;
+}
+.sobre:focus-visible, .boton:focus-visible { outline: 3px solid var(--rosa); outline-offset: 6px; }
+.carta { position: absolute; inset: 0; border-radius: 5px; background: var(--papel); }
+.hoja {
+  position: absolute;
+  z-index: 2;
+  left: 6%;
+  bottom: 5%;
+  width: 88%;
+  height: 88%;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--papel);
+  transform: translateY(5%);
+  transition: .85s cubic-bezier(.2,.75,.25,1);
+}
+.hoja-contenido { display: flex; flex-direction: column; gap: 10px; padding: 20px 22px; text-align: left; opacity: 0; transition: opacity .35s; }
+.saludo { color: var(--rosa); font-size: 17px; font-style: italic; }
+.texto-carta { font-size: 13px; line-height: 1.65; }
+.firma { align-self: flex-end; color: var(--texto-suave); font-size: 13px; line-height: 1.5; text-align: right; }
+.bolsillo { position: absolute; z-index: 3; inset: 0; border-radius: 5px; background: var(--sobre); clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%); }
+.solapa { position: absolute; z-index: 4; inset: 0; background: var(--sobre-oscuro); clip-path: polygon(0 0, 100% 0, 50% 58%); transform-origin: top; transition: transform .65s; }
+.sello { position: absolute; z-index: 5; top: 56%; left: 50%; color: #fff8f5; font-size: 24px; text-shadow: 0 1px 3px #9b596366; transform: translate(-50%, -50%); transition: opacity .3s; }
+.sobre.abierto .solapa { z-index: 1; transform: rotateX(180deg); }
+.sobre.abierto .hoja { bottom: 18%; z-index: 2; height: 170%; transform: translateY(-4%); transition-delay: .35s; }
+.sobre.abierto .hoja-contenido { opacity: 1; transition-delay: .9s; }
+.sobre.abierto .sello { opacity: 0; }
+
+.boton { margin-top: 27px; padding: 12px 22px; border: 1px solid #d9aab2; border-radius: 999px; background: #fffaf8; color: #a85f73; font: 14px Arial, sans-serif; cursor: pointer; transition: .2s; }
+.boton:hover { background: white; transform: translateY(-2px); }
+
+/* Burbujas y corazones discretos */
+.particula { position: fixed; z-index: 0; bottom: -30px; left: var(--x); pointer-events: none; opacity: 0; animation: flotar var(--duracion) linear infinite var(--espera); }
+.burbuja { width: var(--tam); height: var(--tam); border: 1px solid #cb7e9138; border-radius: 50%; background: #ffffff1c; }
+.corazon { color: #cb7e9170; font-size: var(--tam); }
+@keyframes flotar {
+  0% { transform: translate(0, 0); opacity: 0; }
+  12%, 85% { opacity: .4; }
+  100% { transform: translate(var(--deriva), -115vh); opacity: 0; }
+}
+
+@media (max-width: 500px) {
+  .pagina { padding-top: 38px; }
+  .sobre { height: 230px; margin-top: 35px; }
+  .sobre.abierto .hoja { bottom: 12%; height: 180%; }
+  .hoja-contenido { gap: 8px; padding: 16px 17px; }
+  .texto-carta { font-size: 12px; line-height: 1.55; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
